@@ -34,3 +34,5 @@ jobs:
         token: ${{ secrets.REPO_ACCESS_TOKEN }}
         repository: opensciencegrid/docker-frontier-squid
         event-type: dispatch-build
+        client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
+
