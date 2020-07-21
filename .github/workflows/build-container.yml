@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - master
-  schedule:
-    - cron: '7 0 * * sun'
 
 jobs:
   build:
@@ -20,19 +18,14 @@ jobs:
       id: mkdatetag
       run: echo "::set-output name=dtag::$(date +%Y%m%d-%H%M)"
 
-    - name: Build and push Docker images
-      uses: docker/build-push-action@v1
-      with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
-        repository: opensciencegrid/software-base
-        tags: fresh,${{ steps.mkdatetag.outputs.dtag }}
+    - name: test test Build and push Docker images
+      run: echo test test ${{ steps.mkdatetag.outputs.dtag }}
 
     - name: dispatch build frontier-squid
       uses: peter-evans/repository-dispatch@v1
       with:
         token: ${{ secrets.REPO_ACCESS_TOKEN }}
-        repository: opensciencegrid/docker-frontier-squid
+        repository: edquist/docker-frontier-squid
         event-type: dispatch-build
         client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
 
